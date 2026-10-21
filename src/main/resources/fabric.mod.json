@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "id": "bongoflashbangs",
+  "version": "${version}",
+  "name": "BongoFlashbangs",
+  "description": "Server-side flashbangs with scaled sulfur-cube physics, a custom item model, and weak/medium/full frozen afterimages selected by distance and viewing angle.",
+  "authors": ["Bongo"],
+  "environment": "server",
+  "accessWidener": "bongoflashbangs.accesswidener",
+  "mixins": ["bongoflashbangs.mixins.json"],
+  "entrypoints": {"main": ["pl.bongo.flashbangs.BongoFlashbangs"]},
+  "depends": {"fabricloader": ">=0.19.5", "minecraft": "26.3", "java": ">=25", "fabric-api": "*"}
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:gunpowder",
+    "minecraft:glowstone_dust",
+    "minecraft:iron_ingot"
+  ],
+  "result": {
+    "id": "minecraft:snowball",
+    "count": 2,
+    "components": {
+      "minecraft:custom_data": {"bongoflashbangs_flashbang": true},
+      "minecraft:custom_name": {"text": "Flashbang"},
+      "minecraft:item_model": "bongoflashbangs:flashbang",
+      "minecraft:use_cooldown": {"seconds": 1.5, "cooldown_group": "bongoflashbangs:throw"}
+    }
+  }
+}

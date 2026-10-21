@@ -1,0 +1,13 @@
+{
+  "pack": {
+    "description": "BongoFlashbangs 0.6.0 — flashbang model, three afterimage profiles and delayed ear-ringing SFX for Minecraft 26.3",
+    "min_format": [
+      97,
+      1
+    ],
+    "max_format": [
+      97,
+      1
+    ]
+  }
+}

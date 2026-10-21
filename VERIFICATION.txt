@@ -1,0 +1,23 @@
+BongoFlashbangs 0.6.0 — delayed ear-ringing SFX
+
+PASS production build, access widener and verification JAR.
+PASS Minecraft's real SoundEventRegistrationSerializer: sound ID, preload and Ogg path.
+PASS ffprobe: Ogg Vorbis, stereo 48 kHz, original duration 3 s, output duration 5 s.
+PASS decoded PCM: original 144000 frames; delayed 240000 frames; added 96000 frames
+     (2 s) per channel. First 1.98 s exactly zero; tail correlation 0.998469
+     against original after Vorbis re-encoding. No trimming, tempo/pitch processing or
+     added envelope; the complete original three-second SFX follows the silence.
+PASS dedicated Fabric server + real Connection mixin and Netty output:
+     full flash sends one stop-all then one ring packet, only to the affected recipient,
+     attached to that player, MASTER source, pitch 1 and volume 1.
+PASS exact ring identifier bypasses sound suppression for both packet kinds and bundles;
+     other sounds remain blocked; no repeated per-tick stop commands.
+PASS full reflash restarts ring, clear stops ring, weak/medium do not start ring.
+PASS previous flash/range/occlusion, 528 crafting arrangements, native 2.25 m weak apex,
+     model rotation, ghast/crafting protections, cooldown and projectile tracking tests.
+PASS final JAR/pack/source archive integrity and packaged sound matches standalone audio.
+PASS previous shader/model/texture files byte-identical to verified 0.5.0 release.
+
+No listening/synchronization test in a full Minecraft client was performed.
+Game-time animation and real-time audio can diverge when the client/world is paused,
+the shader resets, or game time stalls. Silent padding removes the delayed server task.

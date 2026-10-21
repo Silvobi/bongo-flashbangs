@@ -1,0 +1,153 @@
+{
+  "passes": [
+    {
+      "inputs": [
+        {
+          "sampler_name": "Scene",
+          "target": "minecraft:main",
+          "bilinear": false
+        },
+        {
+          "sampler_name": "History",
+          "target": "history",
+          "bilinear": false
+        }
+      ],
+      "fragment_shader": "bongoflashbangs:post/capture",
+      "vertex_shader": "minecraft:core/screenquad",
+      "output": "frozen"
+    },
+    {
+      "inputs": [
+        {
+          "sampler_name": "In",
+          "target": "frozen",
+          "bilinear": false
+        }
+      ],
+      "fragment_shader": "bongoflashbangs:post/copy",
+      "vertex_shader": "minecraft:core/screenquad",
+      "output": "history"
+    },
+    {
+      "inputs": [
+        {
+          "sampler_name": "Clock",
+          "target": "clock",
+          "bilinear": false
+        }
+      ],
+      "fragment_shader": "bongoflashbangs:post/clock",
+      "vertex_shader": "minecraft:core/screenquad",
+      "output": "clock_next"
+    },
+    {
+      "inputs": [
+        {
+          "sampler_name": "In",
+          "target": "clock_next",
+          "bilinear": false
+        }
+      ],
+      "fragment_shader": "bongoflashbangs:post/copy",
+      "vertex_shader": "minecraft:core/screenquad",
+      "output": "clock"
+    },
+    {
+      "inputs": [
+        {
+          "sampler_name": "Scene",
+          "target": "minecraft:main",
+          "bilinear": false
+        },
+        {
+          "sampler_name": "Frozen",
+          "target": "frozen",
+          "bilinear": true
+        },
+        {
+          "sampler_name": "Clock",
+          "target": "clock",
+          "bilinear": false
+        }
+      ],
+      "fragment_shader": "bongoflashbangs:post/composite",
+      "vertex_shader": "minecraft:core/screenquad",
+      "uniforms": {
+        "FlashConfig": [
+          {
+            "name": "WhiteHold",
+            "type": "float",
+            "value": 0.025
+          },
+          {
+            "name": "WhiteEnd",
+            "type": "float",
+            "value": 0.15
+          },
+          {
+            "name": "GhostEnd",
+            "type": "float",
+            "value": 0.5
+          },
+          {
+            "name": "GhostStrength",
+            "type": "float",
+            "value": 0.32
+          },
+          {
+            "name": "BlurPixels",
+            "type": "float",
+            "value": 1.0
+          },
+          {
+            "name": "WhiteStrength",
+            "type": "float",
+            "value": 0.28
+          }
+        ]
+      },
+      "output": "result"
+    },
+    {
+      "inputs": [
+        {
+          "sampler_name": "In",
+          "target": "result",
+          "bilinear": false
+        }
+      ],
+      "fragment_shader": "bongoflashbangs:post/copy",
+      "vertex_shader": "minecraft:core/screenquad",
+      "output": "minecraft:main"
+    }
+  ],
+  "targets": {
+    "clock": {
+      "height": 1,
+      "width": 1,
+      "persistent": true,
+      "clear_color": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "history": {
+      "persistent": true,
+      "clear_color": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "clock_next": {
+      "width": 1,
+      "height": 1
+    },
+    "result": {},
+    "frozen": {}
+  }
+}

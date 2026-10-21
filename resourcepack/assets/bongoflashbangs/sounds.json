@@ -1,0 +1,7 @@
+{
+  "earring": {
+    "sounds": [
+      {"name": "bongoflashbangs:earring", "preload": true, "stream": false}
+    ]
+  }
+}

@@ -1,0 +1,66 @@
+plugins { id 'net.fabricmc.fabric-loom' version '1.17.12' }
+version = '0.6.0'
+group = 'pl.bongo'
+base { archivesName = 'BongoFlashbangs' }
+repositories { mavenCentral() }
+
+tasks.register('resourcePack', Zip) {
+    archiveFileName = "BongoFlashbangs-resourcepack-26.3-${project.version}.zip"
+    destinationDirectory = layout.buildDirectory.dir('distributions')
+    from('resourcepack')
+}
+sourceSets {
+    verification {
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+    }
+}
+configurations {
+    verificationImplementation.extendsFrom implementation
+    verificationRuntimeOnly.extendsFrom runtimeOnly
+}
+dependencies {
+    minecraft 'com.mojang:minecraft:26.3'
+    implementation 'net.fabricmc:fabric-loader:0.19.5'
+    implementation 'net.fabricmc.fabric-api:fabric-api:0.161.0+26.3'
+    verificationImplementation 'org.lwjgl:lwjgl-glfw:3.4.3'
+    verificationRuntimeOnly 'org.lwjgl:lwjgl:3.4.3:natives-windows'
+    verificationRuntimeOnly 'org.lwjgl:lwjgl-glfw:3.4.3:natives-windows'
+    verificationRuntimeOnly 'org.lwjgl:lwjgl-opengl:3.4.3:natives-windows'
+    verificationRuntimeOnly 'org.lwjgl:lwjgl-shaderc:3.4.3:natives-windows'
+}
+java { toolchain.languageVersion = JavaLanguageVersion.of(25); withSourcesJar() }
+loom { accessWidenerPath = file('src/main/resources/bongoflashbangs.accesswidener') }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 25 }
+processResources { inputs.property 'version', project.version; filesMatching('fabric.mod.json') { expand version: project.version } }
+tasks.register('verifyEffect', JavaExec) {
+    dependsOn verificationClasses
+    classpath = sourceSets.verification.runtimeClasspath
+    mainClass = 'pl.bongo.flashbangs.EffectHarness'
+    jvmArgs '--enable-native-access=ALL-UNNAMED'
+    args file('resourcepack').absolutePath
+}
+tasks.register('verificationJar', Jar) {
+    dependsOn verificationClasses
+    archiveFileName = 'flashbangs-verification.jar'
+    from sourceSets.verification.output
+}
+tasks.register('verifyModel', JavaExec) {
+    dependsOn verificationClasses
+    classpath = sourceSets.verification.runtimeClasspath
+    mainClass = 'pl.bongo.flashbangs.ModelVerification'
+    args file('resourcepack').absolutePath, file('artwork/flashbang.bbmodel').absolutePath
+}
+
+tasks.register('verifyExposure', JavaExec) {
+    dependsOn verificationClasses
+    classpath = sourceSets.verification.runtimeClasspath
+    mainClass = 'pl.bongo.flashbangs.ExposureVerification'
+}
+
+tasks.register('verifySoundResource', JavaExec) {
+    dependsOn verificationClasses
+    classpath = sourceSets.verification.runtimeClasspath
+    mainClass = 'pl.bongo.flashbangs.SoundResourceVerification'
+    args file('resourcepack').absolutePath
+}
